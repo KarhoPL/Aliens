@@ -2,7 +2,7 @@ import pygame
 
 from settings import Settings
 from ship import Ship
-import game_funktions as gf
+import game_functions as gf
 
 def run_game():
     #inicjacja gry
@@ -15,7 +15,8 @@ def run_game():
     # rozpoczęcie głównej pętli gry
     while True:
         #ta pętla będzie działać po każdym "wydarzeniu" czyli kliknięciu klawisza lub myszy
-        gf.check_events()
+        gf.check_events(ship)
+        ship.update()
         gf.update_screen(ai_settings,screen,ship)
 
 
