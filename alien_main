@@ -1,9 +1,8 @@
-import sys
-
 import pygame
 
 from settings import Settings
 from ship import Ship
+import game_funktions as gf
 
 def run_game():
     #inicjacja gry
@@ -15,15 +14,9 @@ def run_game():
     ship = Ship(screen)
     # rozpoczęcie głównej pętli gry
     while True:
-
         #ta pętla będzie działać po każdym "wydarzeniu" czyli kliknięciu klawisza lub myszy
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
-        #odświeżenie ekranu po każdej iteracji pętli
-        screen.fill(ai_settings.bg_color)
-        ship.blitme()
+        gf.check_events()
+        gf.update_screen(ai_settings,screen,ship)
 
-        pygame.display.flip()
 
 run_game()
