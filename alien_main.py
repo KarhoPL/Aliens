@@ -11,7 +11,7 @@ def run_game():
     #utworzenie obiektu ekranu
     screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))
     pygame.display.set_caption("Attack of Aliens")
-    ship = Ship(screen)
+    ship = Ship(ai_settings, screen)
     # rozpoczęcie głównej pętli gry
     while True:
         #ta pętla będzie działać po każdym "wydarzeniu" czyli kliknięciu klawisza lub myszy
