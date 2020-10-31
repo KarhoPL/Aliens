@@ -18,7 +18,7 @@ def run_game():
         #ta pętla będzie działać po każdym "wydarzeniu" czyli kliknięciu klawisza lub myszy
         gf.check_events(ai_settings, screen, ship, bullets)
         ship.update()
-        gf.update_bullets(bullets)
+        gf.update_bullets(bullets,ai_settings)
         gf.update_screen(ai_settings,screen,ship, bullets)
 
 
