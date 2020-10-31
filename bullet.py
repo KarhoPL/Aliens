@@ -10,7 +10,7 @@ class Bullet(Sprite):
         self.rect.top = ship.rect.top
 
         self.y = float(self.rect.y)
-        self.colour = ai_settings.bullet_colour
+        self.color = ai_settings.bullet_color
         self.speed_factor = ai_settings.bullet_speed_factor
 
     def update(self):
@@ -18,5 +18,5 @@ class Bullet(Sprite):
         self.rect.y = self.y
     
     def draw_bullets(self):
-        pygame.draw.rect(self.screen,self.colour,self.rect)
+        pygame.draw.rect(self.screen,self.color,self.rect)
 
