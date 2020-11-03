@@ -5,25 +5,20 @@ from ship import Ship
 import game_functions as gf
 
 def run_game():
-    #inicjacja gry
     pygame.init()
     ai_settings = Settings()
-    #utworzenie obiektu ekranu
     screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))
-    pygame.display.set_caption("Attack of Aliens")
+    pygame.display.set_caption("Chasing the rain")
     ship = Ship(ai_settings, screen)
     bullets = Group()
-    aliens = Group()
-    gf.create_alien(ai_settings, screen, aliens)
-    # utworzenie floty obcych
-    #gf.create_fleet(ai_settings, screen, ship, aliens)
-    # rozpoczęcie głównej pętli gry
+    drops = Group()
+    gf.create_drop(ai_settings, screen, drops, ship)
     while True:
-        if gf.check_if_add_new_alien(aliens): gf.create_alien(ai_settings, screen, aliens)
+        if gf.check_if_add_new_drop(drops): gf.create_drop(ai_settings, screen, drops, ship)
         gf.check_events(ai_settings, screen, ship, bullets)
         ship.update()
         gf.update_bullets(bullets)
-        gf.update_aliens(ai_settings, aliens, ship)
-        gf.update_screen(ai_settings,screen,ship, aliens, bullets)
+        gf.update_drops(ai_settings, drops, ship)
+        gf.update_screen(ai_settings,screen,ship, drops, bullets)
 
 run_game()

@@ -1,6 +1,6 @@
 import sys
 import pygame
-from alien import Alien
+from drop import Drop
 from bullet import Bullet
 from random import randint
 from datetime import datetime
@@ -36,13 +36,13 @@ def check_events(ai_settings, screen, ship, bullets):
         elif event.type == pygame.KEYUP:
             check_keyup_events(event,ship)
 
-def update_screen(ai_settings,screen, ship, aliens, bullets):
+def update_screen(ai_settings,screen, ship, drops, bullets):
     #odświeżenie ekranu po każdej iteracji pętli
     screen.fill(ai_settings.bg_color)
     for bullet in bullets.sprites():
         bullet.draw_bullets()
     ship.blitme()
-    aliens.draw(screen)
+    drops.draw(screen)
     pygame.display.flip()
 
 def update_bullets(bullets):
@@ -52,51 +52,29 @@ def update_bullets(bullets):
         if bullet.rect.bottom <0 :
             bullets.remove(bullet)
 
-def get_number_aliens_x(ai_settings,alien_width):
-    avaible_space_x = ai_settings.screen_width - 2* alien_width
-    number_aliens_x = int(avaible_space_x/(2*alien_width))
-    return number_aliens_x
-'''
-def get_number_rows(ai_settings, ship_height, alien_height):
-    avaible_space_y = (ai_settings.screen_height - (3*alien_height)- ship_height)
-    number_rows = int(avaible_space_y/(2*alien_height))
-    return number_rows
-'''
-def create_alien(ai_settings, screen, aliens):
-    alien = Alien(ai_settings, screen)
-    alien_width = alien.rect.width
-    alien.x = randint(0,ai_settings.screen_width) #alien_width + 2*alien_width * randint(0,get_number_aliens_x(ai_settings,alien_width)) + randint(-30,30)
-    alien.rect.x = alien.x
-    alien.rect.y= 0 #alien.rect.height + 2*alien.rect.height*row_number
-    aliens.add(alien)
-'''
-def create_fleet(ai_settings, screen, ship, aliens):
-    alien = Alien(ai_settings, screen)
-    number_aliens_x = get_number_aliens_x(ai_settings,alien.rect.width)
-    #number_rows = get_number_rows(ai_settings,ship.rect.height,alien.rect.height)
-    lambda aliens alien.get_rect().top > 10:
-            create_alien(ai_settings, screen, aliens, alien_number, row_number)
-'''
-def check_fleet_edges(ai_settings, aliens, ship):
-    for alien in aliens.sprites():
-        if alien.check_edges(ship):
-            aliens.remove(alien)
-            break
-'''
-def change_fleet_direction(ai_settings,aliens):
-    for alien in aliens.sprites():
-        alien.rect.y += ai_settings.fleet_drop_speed
-    ai_settings.fleet_direction *= -1
-'''
-def update_aliens(ai_settings, aliens,ship):
-    check_fleet_edges(ai_settings, aliens,ship)
-    aliens.update()
 
-def check_if_add_new_alien(aliens):
+def create_drop(ai_settings, screen, drops, ship):
+    drop = Drop(ai_settings, screen)
+    drop.x = randint(ship.rect.width,ai_settings.screen_width-ship.rect.width) 
+    drop.rect.x = drop.x
+    drop.rect.y= 0
+    drops.add(drop)
+
+def check_fleet_edges(ai_settings, drops, ship):
+    for drop in drops.sprites():
+        if drop.check_edges(ship):
+            drops.remove(drop)
+            break
+
+def update_drops(ai_settings, drops,ship):
+    check_fleet_edges(ai_settings, drops,ship)
+    drops.update()
+
+def check_if_add_new_drop(drops):
     positions = []
-    for alien in aliens:
-        if alien.rect.y < alien.rect.height*1.5:
-            positions.append(alien.rect.y)
+    for drop in drops:
+        if drop.rect.y < drop.rect.height*1.5:
+            positions.append(drop.rect.y)
     if positions:
         return False
     return True
