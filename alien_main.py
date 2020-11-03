@@ -14,15 +14,16 @@ def run_game():
     ship = Ship(ai_settings, screen)
     bullets = Group()
     aliens = Group()
+    gf.create_alien(ai_settings, screen, aliens)
     # utworzenie floty obcych
-    gf.create_fleet(ai_settings, screen, ship, aliens)
+    #gf.create_fleet(ai_settings, screen, ship, aliens)
     # rozpoczęcie głównej pętli gry
     while True:
-        #ta pętla będzie działać po każdym "wydarzeniu" czyli kliknięciu klawisza lub myszy
+        if gf.check_if_add_new_alien(aliens): gf.create_alien(ai_settings, screen, aliens)
         gf.check_events(ai_settings, screen, ship, bullets)
         ship.update()
         gf.update_bullets(bullets)
-        gf.update_aliens(ai_settings, aliens)
+        gf.update_aliens(ai_settings, aliens, ship)
         gf.update_screen(ai_settings,screen,ship, aliens, bullets)
 
 run_game()

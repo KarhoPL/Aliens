@@ -19,4 +19,3 @@ class Bullet(Sprite):
     
     def draw_bullets(self):
         pygame.draw.rect(self.screen,self.color,self.rect)
-

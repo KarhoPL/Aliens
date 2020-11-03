@@ -2,6 +2,8 @@ import sys
 import pygame
 from alien import Alien
 from bullet import Bullet
+from random import randint
+from datetime import datetime
 
 def check_keydown_events(event, ai_settings, screen, ship, bullets):
     if event.key == pygame.K_RIGHT:
@@ -24,7 +26,6 @@ def check_keyup_events(event,ship):
         ship.moving_right = False
     if event.key == pygame.K_LEFT:
         ship.moving_left = False
-
 
 def check_events(ai_settings, screen, ship, bullets):
     for event in pygame.event.get():
@@ -55,36 +56,47 @@ def get_number_aliens_x(ai_settings,alien_width):
     avaible_space_x = ai_settings.screen_width - 2* alien_width
     number_aliens_x = int(avaible_space_x/(2*alien_width))
     return number_aliens_x
+'''
 def get_number_rows(ai_settings, ship_height, alien_height):
     avaible_space_y = (ai_settings.screen_height - (3*alien_height)- ship_height)
     number_rows = int(avaible_space_y/(2*alien_height))
     return number_rows
-
-def create_alien(ai_settings, screen, aliens, alien_number,row_number):
+'''
+def create_alien(ai_settings, screen, aliens):
     alien = Alien(ai_settings, screen)
     alien_width = alien.rect.width
-    alien.x = alien_width + 2*alien_width * alien_number
+    alien.x = randint(0,ai_settings.screen_width) #alien_width + 2*alien_width * randint(0,get_number_aliens_x(ai_settings,alien_width)) + randint(-30,30)
     alien.rect.x = alien.x
-    alien.rect.y= alien.rect.height + 2*alien.rect.height*row_number
+    alien.rect.y= 0 #alien.rect.height + 2*alien.rect.height*row_number
     aliens.add(alien)
-
+'''
 def create_fleet(ai_settings, screen, ship, aliens):
     alien = Alien(ai_settings, screen)
     number_aliens_x = get_number_aliens_x(ai_settings,alien.rect.width)
-    number_rows = get_number_rows(ai_settings,ship.rect.height,alien.rect.height)
-    for row_number in range(number_rows):
-        for alien_number in range(number_aliens_x):
+    #number_rows = get_number_rows(ai_settings,ship.rect.height,alien.rect.height)
+    lambda aliens alien.get_rect().top > 10:
             create_alien(ai_settings, screen, aliens, alien_number, row_number)
-def check_fleet_edges(ai_settings, aliens):
+'''
+def check_fleet_edges(ai_settings, aliens, ship):
     for alien in aliens.sprites():
-        if alien.check_edges():
-            change_fleet_direction(ai_settings,aliens)
+        if alien.check_edges(ship):
+            aliens.remove(alien)
             break
+'''
 def change_fleet_direction(ai_settings,aliens):
     for alien in aliens.sprites():
         alien.rect.y += ai_settings.fleet_drop_speed
     ai_settings.fleet_direction *= -1
-
-def update_aliens(ai_settings, aliens):
-    check_fleet_edges(ai_settings, aliens)
+'''
+def update_aliens(ai_settings, aliens,ship):
+    check_fleet_edges(ai_settings, aliens,ship)
     aliens.update()
+
+def check_if_add_new_alien(aliens):
+    positions = []
+    for alien in aliens:
+        if alien.rect.y < alien.rect.height*1.5:
+            positions.append(alien.rect.y)
+    if positions:
+        return False
+    return True
