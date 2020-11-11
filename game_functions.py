@@ -4,7 +4,7 @@ from alien import Alien
 from bullet import Bullet
 from time import sleep
 
-def check_keydown_events(event, ai_settings, screen, ship, bullets):
+def check_keydown_events(event, ai_settings, stats,screen, ship, bullets):
     if event.key == pygame.K_RIGHT:
         ship.moving_right = True
     if event.key == pygame.K_LEFT:
@@ -13,6 +13,11 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets):
         fire_bullet(ai_settings,screen,ship,bullets)
     elif event.key == pygame.K_q:
         sys.exit()
+    elif event.key == pygame.K_p:
+        if stats.game_active:
+            stats.game_active = False
+        else:
+            stats.game_active = True
         
 def fire_bullet(ai_settings, screen, ship, bullets):
     '''wystrzelenie pocisku jeżeli nie przekroczono ustalonego limitu'''
@@ -26,12 +31,12 @@ def check_keyup_events(event,ship):
     if event.key == pygame.K_LEFT:
         ship.moving_left = False
 
-def check_events(ai_settings, screen, ship, bullets):
+def check_events(ai_settings, screen, stats, ship, bullets):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
         elif event.type == pygame.KEYDOWN:
-            check_keydown_events(event, ai_settings,screen,ship,bullets)
+            check_keydown_events(event, ai_settings,stats, screen,ship,bullets)
         elif event.type == pygame.KEYUP:
             check_keyup_events(event,ship)
 
